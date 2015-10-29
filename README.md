@@ -12,7 +12,7 @@ This is a set of utilities for apps building with [graphql-js](https://github.co
 
 ### Usage
 
-~~~
+~~~graohq
 npm install graphql-utils
 ~~~
 
@@ -21,8 +21,6 @@ npm install graphql-utils
 Using these utilities, you can get the field names of the result type, user asked for. Based on that, you can filter which fields you need from the DB.
 
 You can also check fields on nested fields as well.
-
----
 
 > First of all, have a look at our [schema](https://gist.github.com/arunoda/5c819dc4fc30f7792c68).
 
