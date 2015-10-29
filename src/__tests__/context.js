@@ -6,7 +6,7 @@ import {
   getContext
 } from '../';
 
-describe('graphq-utils', () => {
+describe('Context', () => {
   describe('withContext', () => {
     it('it should not mutate the input payload if it\'s an object', () => {
       const original = {};
