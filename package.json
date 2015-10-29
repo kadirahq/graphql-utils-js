@@ -1,7 +1,7 @@
 {
   "name": "graphql-utils",
   "version": "1.0.0",
-  "description": "A set of utilities for app building with graphql-js",
+  "description": "A set of utilities for apps building with graphql-js",
   "repository": {
     "type": "git",
     "url": "https://github.com/kadirahq/graphql-utils-js.git"

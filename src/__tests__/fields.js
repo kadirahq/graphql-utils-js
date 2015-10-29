@@ -18,88 +18,88 @@ describe('Fields', () => {
     it('should give root level fields', async () => {
       const query = `
         {
-          metric {
-            one,
-            two
+          recentPost {
+            id,
+            title
           }
         }
       `;
 
       const info = await getInfo(query);
       const fields = getFieldsFromAst(info, info.fieldASTs[0]);
-      expect(_.keys(fields)).to.be.deep.equal([ 'one', 'two' ]);
+      expect(_.keys(fields)).to.be.deep.equal([ 'id', 'title' ]);
     });
 
     it('should give fields in fragments', async () => {
       const query = `
         {
-          metric {
-            one,
+          recentPost {
+            id,
             ...a
           }
         }
 
-        fragment a on Metric {
-          two
+        fragment a on Post {
+          title
         }
       `;
 
       const info = await getInfo(query);
       const fields = getFieldsFromAst(info, info.fieldASTs[0]);
-      expect(_.keys(fields)).to.be.deep.equal([ 'one', 'two' ]);
+      expect(_.keys(fields)).to.be.deep.equal([ 'id', 'title' ]);
     });
 
     it('should give fields in nested fragments', async () => {
       const query = `
         {
-          metric {
-            one,
+          recentPost {
+            id,
             ...a
           }
         }
 
-        fragment a on Metric {
-          two,
+        fragment a on Post {
+          title,
           ...b
         }
 
-        fragment b on Metric {
-          three {
-            four
+        fragment b on Post {
+          author {
+            name
           }
         }
       `;
 
       const info = await getInfo(query);
       const fields = getFieldsFromAst(info, info.fieldASTs[0]);
-      expect(_.keys(fields)).to.be.deep.equal([ 'one', 'two', 'three' ]);
+      expect(_.keys(fields)).to.be.deep.equal([ 'id', 'title', 'author' ]);
     });
 
     it('should allow to get fields in nested types', async () => {
       const query = `
         {
-          metric {
-            one,
+          recentPost {
+            id,
             ...a
           }
         }
 
-        fragment a on Metric {
-          two,
+        fragment a on Post {
+          title,
           ...b
         }
 
-        fragment b on Metric {
-          three {
-            four
+        fragment b on Post {
+          author {
+            name
           }
         }
       `;
 
       const info = await getInfo(query);
-      const fieldsOnMetric = getFieldsFromAst(info, info.fieldASTs[0]);
-      const fieldsOnSubMetric = getFieldsFromAst(info, fieldsOnMetric['three']);
-      expect(_.keys(fieldsOnSubMetric)).to.be.deep.equal([ 'four' ]);
+      const fieldsOnPost = getFieldsFromAst(info, info.fieldASTs[0]);
+      const fieldsOnAuthor = getFieldsFromAst(info, fieldsOnPost['author']);
+      expect(_.keys(fieldsOnAuthor)).to.be.deep.equal([ 'name' ]);
     });
   });
 
@@ -107,16 +107,16 @@ describe('Fields', () => {
     it('should give filed just passing the info', async () => {
       const query = `
         {
-          metric {
-            one,
-            two
+          recentPost {
+            id,
+            title
           }
         }
       `;
 
       const info = await getInfo(query);
       const fields = getFieldsFromInfo(info);
-      expect(_.keys(fields)).to.be.deep.equal([ 'one', 'two' ]);
+      expect(_.keys(fields)).to.be.deep.equal([ 'id', 'title' ]);
     });
   });
 });
@@ -124,29 +124,29 @@ describe('Fields', () => {
 function getInfo(query) {
   let resolve = null;
 
-  const Metric = new GraphQLObjectType({
-    name: 'Metric',
+  const Post = new GraphQLObjectType({
+    name: 'Post',
     fields: () => ({
-      one: {type: GraphQLString},
-      two: {type: GraphQLString},
-      three: {type: SubMetric},
+      id: {type: GraphQLString},
+      title: {type: GraphQLString},
+      author: {type: Author},
     })
   });
 
-  const SubMetric = new GraphQLObjectType({
-    name: 'SubMetric',
+  const Author = new GraphQLObjectType({
+    name: 'Author',
     fields: () => ({
-      four: {type: GraphQLString},
-      five: {type: GraphQLString},
+      id: {type: GraphQLString},
+      name: {type: GraphQLString},
     })
   });
 
   const schema = new GraphQLSchema({
     query: new GraphQLObjectType({
-      name: 'Metrics',
+      name: 'RootQuery',
       fields: () => ({
-        metric: {
-          type: Metric,
+        recentPost: {
+          type: Post,
           resolve(root, args, info) {
             resolve(info);
             return {};
