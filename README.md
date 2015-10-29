@@ -18,7 +18,7 @@ npm install graphql-utils
 
 ### Picking Fields Before Resolve
 
-Using these utilities, you can get the field names of the result type, user asked for. Based on that, you can filter which fields you need from the DB.
+With this, you can get the field names of the result type, user asked for. Based on that, you can filter which fields you need from the DB.
 
 You can also check fields on nested fields as well.
 
@@ -26,7 +26,7 @@ You can also check fields on nested fields as well.
 
 #### Picking Fields
 
-Then we need to pick the fields of mentioned in the query inside the resolve function of `recentPost`.
+Basically, we need to pick the fields mentioned in the following query, inside the resolve function of `recentPost` query.
 
 Here's our query:
 
@@ -79,7 +79,7 @@ const query = `
 `;
 ```
 
-We can even get the fields of the `author` just inside the `recentPost` resolve function.
+Then this is how we can get the nested fields of the field `author`.
 
 ```js
 import {
@@ -105,11 +105,11 @@ Now you can see `[ "name" ]` is printed on the screen.
 
 ### Maintaining Context
 
-Sometimes it's very important to pass some context down to the child nodes in graph. There is no built in functionality in GraphQL for that. But we can add a context with the return value of the `resolve` function. 
-
-Then in the resolve function of result type's fields we can get the above value and get the context.
+Sometimes it's very important to pass some context down to the child nodes in graph. There is no built in functionality in GraphQL for that. But we can add a context with the return value of the `resolve` function.
 
 For that we can use `withContext` and `getContext` functions of `graphql-utils.`
+
+**Read [this blog](#) post to see how this can be done in a real app.**
 
 #### Setting a context to an object
 
@@ -119,7 +119,7 @@ This is how we can set a context to a plain object.
 import {
   withContext,
   getContext
-} from 'graphql-utils'
+} from 'graphql-utils';
 
 const payload = {the: "payload"};
 const context = {some: "data"};
@@ -127,12 +127,12 @@ const payloadWithContext = withContext(payload, context);
 
 // payloadWithContext has a field called __context with the given context
 // You can get the context with
-console.log(`The context is: ${getContext(payloadWithContext)}`)
+console.log(getContext(payloadWithContext));
 ```
 
 #### Setting a context to an array
 
-Setting the context to an array is different because we need to have a different context for each element in the array. This is how we do it.
+When setting context to an array, we need to set it for all the items in the array. This is how to do it.
 
 ```js
 import {
