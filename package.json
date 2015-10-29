@@ -1,0 +1,34 @@
+{
+  "name": "graphql-utils",
+  "version": "1.0.0",
+  "description": "A set of utilities for app building with graphql-js",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/kadirahq/graphql-utils-js.git"
+  },
+  "author": "Arunoda Susiripala <arunoda@kadira.io> (http://github.com/arunoda)",
+  "license": "MIT",
+  "main": "./build",
+  "options": {
+    "mocha": "--require scripts/mocha-bootload src/**/__tests__/**/*.js"
+  },
+  "scripts": {
+    "prepublish": "./scripts/prepublish.sh",
+    "lint": "./node_modules/.bin/eslint ./src",
+    "testonly": "./node_modules/.bin/mocha $npm_package_options_mocha",
+    "test": "npm run lint && npm run testonly"
+  },
+  "devDependencies": {
+    "mocha": "2.x.x",
+    "chai": "3.x.x",
+    "babel": "5.x.x",
+    "babel-runtime": "5.x.x",
+    "eslint": "1.7.x",
+    "babel-eslint": "4.x.x",
+    "eslint-plugin-babel": "2.x.x"
+  },
+  "dependencies": {
+    "lodash": "3.x.x",
+    "graphql": "0.4.x"
+  }
+}
